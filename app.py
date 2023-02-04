@@ -237,16 +237,14 @@ def GenerateData(q,q1,q2):
                 
                 static_vb = ([ x for x in dir(obj) if  isinstance(getattr(obj,x),(str,int))
                             if not x.startswith("__")])
-                print(f"static {static_vb}")
                 static_len = len([ x for x in dir(obj) if  isinstance(getattr(obj,x),(str,int))
                             if not x.startswith("__")])
                 
                 insta_vb = [obj.__init__.__code__.co_names]
-                print(f"class {insta_vb}")
                 insta_len = len(obj.__init__.__code__.co_names)
             except Exception as e:
                 print("no..............")
-                
+
             st = (f"\nNo of Instance variable(s): {insta_len}\n")
             q.put(st)
             cl = (f"No of Class variable(s) : {static_len}\n")
