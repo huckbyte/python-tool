@@ -101,8 +101,11 @@ class Gui(object):
             if not self.running:
                 self.running = True
                 self._loop()
-    
-      
+                
+    def start_thread(self):
+        thread1 = Thread(target=self.start())
+        thread1.start()
+        thread1.join()
     def stop(self):
         print("stoping the function")
         if self.running:
@@ -147,7 +150,7 @@ class Gui(object):
         op_btn.grid(row=0,column=0)
         cl_btn3 = Button(framemn,text="close",width=7,height=1 ,bg="gray",font="Helvetica 13 bold",command=self.window.destroy)
         cl_btn3.grid(row=0,column=1)
-        cl_btn1 = Button(framemn,text="run",width=7,height=1 ,bg="gray",font="Helvetica 13 bold",command=self.start)
+        cl_btn1 = Button(framemn,text="run",width=7,height=1 ,bg="gray",font="Helvetica 13 bold",command=self.start_thread)
         cl_btn1.grid(row=0,column=3,padx=0,pady=0)
         cl_btn2 = Button(framemn,text="reset",width=7,height=1 ,bg="gray",font="Helvetica 13 bold",command=self.reset)
         cl_btn2.grid(row=0,column=4,padx=0)
@@ -216,6 +219,7 @@ def GenerateData(q,q1,q2):
         if inspect.isclass(obj):
             class_num1.append(name)
             classes = (f"\nclass: {name}\n")
+            print(classes)
             ind = 0
             try:
                 ind = indent_check(obj)
@@ -233,10 +237,12 @@ def GenerateData(q,q1,q2):
                 
                 static_vb = ([ x for x in dir(obj) if  isinstance(getattr(obj,x),(str,int))
                             if not x.startswith("__")])
+                print(f"static {static_vb}")
                 static_len = len([ x for x in dir(obj) if  isinstance(getattr(obj,x),(str,int))
                             if not x.startswith("__")])
                 
                 insta_vb = [obj.__init__.__code__.co_names]
+                print(f"class {insta_vb}")
                 insta_len = len(obj.__init__.__code__.co_names)
             except Exception as e:
                 print("no..............")
